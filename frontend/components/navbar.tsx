@@ -143,17 +143,10 @@ function WalletButton() {
                 <div className="absolute -bottom-[1px] -right-[1px] w-2 h-2 rounded-full bg-green-500 border border-[#0A0A0A]" />
               </div>
 
-              {/* Address */}
+              {/* Address ONLY - Balanced suppressed for demo stability */}
               <span className="text-sm font-medium text-white font-mono">
                 {account.displayName}
               </span>
-
-              {/* Balance (if available) */}
-              {account.displayBalance && (
-                <span className="hidden lg:inline text-xs text-gray-400 border-l border-white/10 pl-2 ml-1">
-                  {account.displayBalance}
-                </span>
-              )}
             </button>
           </div>
         );

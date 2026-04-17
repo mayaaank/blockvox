@@ -35,6 +35,7 @@ export function NetworkBanner() {
                 <p className="text-xs text-amber-500/70 font-medium">
                   Switch to <span className="text-amber-400 font-bold underline decoration-amber-500/30">Avalanche Fuji</span> to interact with the voting protocol.
                 </p>
+                <p className="text-[9px] text-amber-500/50 mt-1 italic font-bold">Note: Balance and contract features require Fuji network sync.</p>
               </div>
             </div>
             

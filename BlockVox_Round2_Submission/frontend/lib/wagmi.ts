@@ -29,16 +29,6 @@ export const avalancheFuji: Chain = {
   testnet: true,
 };
 
-// Avalanche C-Chain Mainnet (secondary option in network switcher)
-export const avalancheMainnet: Chain = {
-  id: 43114,
-  name: 'Avalanche',
-  nativeCurrency: {
-    decimals: 18,
-    name: 'AVAX',
-    symbol: 'AVAX',
-  },
-  rpcUrls: {
     default: {
       http: ['https://api.avax.network/ext/bc/C/rpc'],
     },
@@ -56,11 +46,9 @@ export const avalancheMainnet: Chain = {
 export const config = getDefaultConfig({
   appName: 'BlockVox — Trustless E-Voting',
   projectId: process.env.NEXT_PUBLIC_WC_PROJECT_ID || 'demo_project_id',
-  // Fuji listed first = pre-selected default chain
-  chains: [avalancheFuji, avalancheMainnet],
+  chains: [avalancheFuji],
   transports: {
     [avalancheFuji.id]: http('https://api.avax-test.network/ext/bc/C/rpc'),
-    [avalancheMainnet.id]: http('https://api.avax.network/ext/bc/C/rpc'),
   },
   ssr: true,
 });
