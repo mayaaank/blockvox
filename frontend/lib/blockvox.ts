@@ -105,28 +105,36 @@ export async function revealVoteOnChain(
   walletClient: WalletClient,
   account: Address
 ): Promise<`0x${string}`> {
-  let functionName: 'revealVote' | 'voteApproval' | 'voteScore' = 'revealVote';
-  let args: readonly any[] = [];
-
-  if (mode === 0) {
-    functionName = 'revealVote';
-    args = [BigInt(voteData as number), salt] as const;
-  } else if (mode === 1) {
-    functionName = 'voteApproval';
-    args = [(voteData as number[]).map(id => BigInt(id)), salt] as const;
-  } else {
-    functionName = 'voteScore';
-    args = [(voteData as number[]).map(s => BigInt(s)), salt] as const;
-  }
-
-  return await walletClient.writeContract({
+  const base = {
     address: BLOCKVOX_CONTRACT_ADDRESS,
     abi: blockvoxABI,
-    functionName,
-    args,
     chain: avalancheFuji,
     account,
-  });
+  } as const;
+
+  // Each branch is a separate call so Viem can infer the exact arg tuple.
+  if (mode === 0) {
+    // Single Choice: revealVote(uint256 candidateId, bytes32 salt)
+    return await walletClient.writeContract({
+      ...base,
+      functionName: 'revealVote',
+      args: [BigInt(voteData as number), salt],
+    });
+  } else if (mode === 1) {
+    // Approval: voteApproval(uint256[] approvedCandidates, bytes32 salt)
+    return await walletClient.writeContract({
+      ...base,
+      functionName: 'voteApproval',
+      args: [(voteData as number[]).map(id => BigInt(id)), salt],
+    });
+  } else {
+    // Score: voteScore(uint256[] scores, bytes32 salt)
+    return await walletClient.writeContract({
+      ...base,
+      functionName: 'voteScore',
+      args: [(voteData as number[]).map(s => BigInt(s)), salt],
+    });
+  }
 }
 
 /* ─── Contract Read Functions ───────────────────────── */
