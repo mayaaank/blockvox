@@ -247,6 +247,8 @@ export default function AdminPage() {
           </div>
           <h1 className="text-4xl md:text-5xl font-bold mb-2">Election Management</h1>
           <p className="text-gray-400">Create and manage elections on the BlockVox protocol</p>
+        </div>
+
         <div className="flex flex-wrap items-center justify-between gap-4 mb-8 p-4 bg-white/5 border border-white/10 rounded-xl">
           <div className="flex items-center gap-6">
             <div 

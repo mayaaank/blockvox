@@ -407,7 +407,7 @@ export default function VotePage() {
         const txHash = await commitVoteOnChain(
           commitment, 
           proofNodes as `0x${string}`[], 
-          0n, // Pass 0 as nftId on-chain as we use our Token system for sync
+          BigInt(0), // Use BigInt(0) for maximum compatibility with older TS targets
           walletClient, 
           address
         );
