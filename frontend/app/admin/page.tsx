@@ -14,6 +14,7 @@ import {
   getStoredTokens,
   type VoterToken
 } from '@/lib/blockvox';
+import { NetworkBanner } from '@/components/network-banner';
 import { saveElectionData, type Candidate, VotingMode } from '@/lib/election-store';
 import {
   buildMerkleTree,
@@ -228,29 +229,7 @@ export default function AdminPage() {
     <div className="min-h-screen pt-[120px] pb-32">
       <div className="max-w-5xl mx-auto px-6">
         
-        {/* Network Warning Banner */}
-        <div className="mb-8">
-          <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-2xl p-4 flex items-center justify-between gap-4">
-             <div className="flex items-center gap-3">
-               <div className="w-8 h-8 rounded-full bg-yellow-500/20 flex items-center justify-center text-yellow-500">
-                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                    <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
-                    <line x1="12" y1="9" x2="12" y2="13" />
-                    <line x1="12" y1="17" x2="12.01" y2="17" />
-                 </svg>
-               </div>
-               <div>
-                  <p className="text-[10px] font-black text-yellow-500 uppercase tracking-widest">Network Verification Required</p>
-                  <p className="text-xs text-yellow-500/70 font-medium">Please manually switch your wallet to <span className="text-yellow-400 font-bold">Avalanche Fuji Testnet (Chain ID: 43113)</span></p>
-               </div>
-             </div>
-             <div className="hidden sm:block">
-                <span className="text-[9px] font-bold text-yellow-500/40 uppercase bg-yellow-500/5 border border-yellow-500/10 px-2 py-1 rounded">
-                   Fuji #43113
-                </span>
-             </div>
-          </div>
-        </div>
+        <NetworkBanner />
         {/* Header */}
         <div className="mb-12">
           <div className="flex items-center gap-3 mb-4">
