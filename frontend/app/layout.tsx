@@ -35,25 +35,48 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         {/* Suppress chrome.runtime errors from wallet extensions */}
         <script dangerouslySetInnerHTML={{ __html: `
+          // Layer 1: Catch errors before anything else sees them
           window.addEventListener('error', function(e) {
             if (e.message && (
               e.message.includes('chrome.runtime') ||
               e.message.includes('Extension context') ||
-              e.message.includes('message port closed')
+              e.message.includes('message port closed') ||
+              e.message.includes('sendMessage')
             )) {
               e.preventDefault();
-              e.stopPropagation();
-              return true;
+              e.stopImmediatePropagation();
+              console.log('%c[BlockVox] Suppressed extension error', 'color: #E30613;');
+              return false;
             }
           }, true);
+
+          // Layer 2: Catch unhandled promise rejections from extensions
           window.addEventListener('unhandledrejection', function(e) {
-            if (e.reason && e.reason.message && (
-              e.reason.message.includes('chrome.runtime') ||
-              e.reason.message.includes('Extension context')
+            if (e.reason && (
+              (typeof e.reason === 'string' && e.reason.includes('chrome.runtime')) ||
+              (e.reason.message && (
+                e.reason.message.includes('chrome.runtime') ||
+                e.reason.message.includes('Extension context') ||
+                e.reason.message.includes('sendMessage')
+              ))
             )) {
               e.preventDefault();
+              e.stopImmediatePropagation();
             }
           });
+
+          // Layer 3: Hide Next.js error overlay if it appears from extension errors
+          var observer = new MutationObserver(function(mutations) {
+            var overlay = document.querySelector('nextjs-portal');
+            if (overlay && overlay.shadowRoot) {
+              var dialog = overlay.shadowRoot.querySelector('[role="dialog"]');
+              if (dialog && dialog.textContent && dialog.textContent.includes('chrome.runtime')) {
+                overlay.remove();
+                console.log('%c[BlockVox] Removed extension error overlay', 'color: #E30613;');
+              }
+            }
+          });
+          observer.observe(document.documentElement, { childList: true, subtree: true });
         `}} />
       </head>
       <body className="bg-[#0A0A0A] text-white antialiased">
