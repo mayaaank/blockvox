@@ -13,7 +13,6 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider
-          initialChain={avalancheFuji}
           showRecentTransactions={true}
           theme={darkTheme({
             accentColor: '#E30613',
