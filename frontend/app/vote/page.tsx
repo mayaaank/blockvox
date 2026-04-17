@@ -418,11 +418,6 @@ export default function VotePage() {
       setTimeout(() => {
         const txHash = randomHex(64);
         setCommitTxHash(txHash);
-        
-        let voteData: number | number[];
-        if (votingMode === VotingMode.Single) voteData = selectedCandidate!;
-        else if (votingMode === VotingMode.Approval) voteData = approvals;
-        else voteData = scores;
 
         localStorage.setItem(`blockvox_commit_${address}`, JSON.stringify({
           voteData,

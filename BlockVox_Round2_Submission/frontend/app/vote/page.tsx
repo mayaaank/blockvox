@@ -18,6 +18,7 @@ import { loadMerkleTree, getProof, verifyProof } from '@/lib/merkle-tree';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
+import { ShieldCheck, Brain } from 'lucide-react';
 
 type Phase = 'connect' | 'merkle' | 'commit' | 'reveal' | 'success' | 'voted';
 
@@ -417,11 +418,6 @@ export default function VotePage() {
       setTimeout(() => {
         const txHash = randomHex(64);
         setCommitTxHash(txHash);
-        
-        let voteData: number | number[];
-        if (votingMode === VotingMode.Single) voteData = selectedCandidate!;
-        else if (votingMode === VotingMode.Approval) voteData = approvals;
-        else voteData = scores;
 
         localStorage.setItem(`blockvox_commit_${address}`, JSON.stringify({
           voteData,
